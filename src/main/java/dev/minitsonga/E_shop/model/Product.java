@@ -19,10 +19,8 @@ public class Product
     private Double price;
     private Integer stockQuantity;
 
-    @ElementCollection(targetClass = Tag.class)
-    @CollectionTable(name = "product_tags", joinColumns = @JoinColumn(name = "product_id"))
-    @Enumerated(EnumType.STRING) // Stocke les valeurs Enum sous forme de texte
-    @Column(name = "tag")
+    @ManyToMany
+    @JoinTable(name = "product_tags", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "tag_name"))
     private Set<Tag> tags = new HashSet<>();
 
     // Getters et Setters
@@ -95,20 +93,6 @@ public class Product
     public void setTags(Set<Tag> tags)
     {
         this.tags = tags;
-    }
-
-
-    public enum Tag
-    {
-        HIGHTECH,
-        PROMOTION,
-        BESTSELLER,
-        SOLDES,
-        NOUVEAU,
-        LIVRE,
-        EPICERIE,
-        CUISINE,
-        SPORT
     }
 
 }
