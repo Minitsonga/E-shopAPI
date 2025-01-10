@@ -23,6 +23,18 @@ public class Product
     @JoinTable(name = "product_tags", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "tag_name"))
     private Set<Tag> tags = new HashSet<>();
 
+    public Product() {}
+
+    public Product(String name, String description, String imageUrl, Double price, Integer stockQuantity, Set<Tag> tags)
+    {
+        this.name = name;
+        this.description = description;
+        this.imageUrl = imageUrl;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+        this.tags = tags;
+    }
+
     // Getters et Setters
     public Long getId()
     {
