@@ -19,7 +19,6 @@ public class ProductService
         this.productRepo = productRepo;
     }
 
-
     public Product createProduct(String name, String description, String imageUrl, Double price, Integer stockQuantity, Set<Tag> tags)
     {
         return productRepo.save(new Product(name, description, imageUrl, price, stockQuantity, tags));
