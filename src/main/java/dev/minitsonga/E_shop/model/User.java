@@ -115,5 +115,15 @@ public class User
     {
         this.zip = zip;
     }
+
+    public Set<Role> getRoles()
+    {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles)
+    {
+        this.roles = roles;
+    }
 }
 
