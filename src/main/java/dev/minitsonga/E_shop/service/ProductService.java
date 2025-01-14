@@ -3,7 +3,6 @@
 import dev.minitsonga.E_shop.model.Product;
 import dev.minitsonga.E_shop.model.Tag;
 import dev.minitsonga.E_shop.repo.ProductRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
