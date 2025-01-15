@@ -9,35 +9,30 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class ProductService
-{
+public class ProductService {
     private final ProductRepo productRepo;
 
-    public ProductService (ProductRepo productRepo)
-    {
+    public ProductService(ProductRepo productRepo) {
         this.productRepo = productRepo;
     }
 
-    public Product createProduct(String name, String description, String imageUrl, Double price, Integer stockQuantity, Set<Tag> tags)
-    {
-        return productRepo.save(new Product(name, description, imageUrl, price, stockQuantity, tags));
-    }
-
-    public Product UpdateProduct(Product product)
-    {
+    public Product createProduct(Product product) {
         return productRepo.save(product);
     }
 
-    public void deleteProduct(Long id)
-    {
+    public Product UpdateProduct(Product product) {
+        return productRepo.save(product);
+    }
+
+    public void deleteProductById(Long id) {
+        if (!productRepo.existsById(id)) {
+            throw new RuntimeException("Product not found with ID: " + id);
+        }
         productRepo.deleteById(id);
     }
 
-
-    public List<Product> getAllProducts()
-    {
+    public List<Product> getAllProducts() {
         return productRepo.findAll();
     }
-
 
 }
