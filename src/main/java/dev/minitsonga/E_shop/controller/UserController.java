@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
 @RequestMapping("/api/users")
@@ -26,27 +28,28 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
-    @PostMapping("/add")
+    
+    @GetMapping
+    public ResponseEntity<List<User>> getAllUsers(@RequestParam String username) {
+        return ResponseEntity.ok(userService.getAllUsers());
+    }
+    @PostMapping(path = "/add")
     public ResponseEntity<User> registerUser(@RequestBody User user) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(user));
     }
 
-    @PostMapping("/{username}/roles/add")
+    @PutMapping(path = "/{username}/roles/update")
     public ResponseEntity<User> updateUserRoles(@PathVariable String username, @RequestBody Set<String> rolesName) {
 
         return ResponseEntity.ok(userService.updateUserRoles(username, rolesName));
     }
 
-    @GetMapping("/{username}")
+    @GetMapping(path = "/{username}")
     public ResponseEntity<User> getUserByUsername(@RequestParam String username) {
-        return ResponseEntity.ok(userService.findByUserName(username));
+        return ResponseEntity.ok(userService.getUserByUsername(username));
     }
 
-    @GetMapping
-    public ResponseEntity<List<User>> getAllUsers(@RequestParam String username) {
-        return ResponseEntity.ok(userService.getAllUsers());
-    }
+
 
 }
