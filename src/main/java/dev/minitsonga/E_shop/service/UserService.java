@@ -29,7 +29,7 @@ public class UserService {
     }
 
     public User createUser(User user) {
-        Role defaultRole = findRoleByName("USER");
+        Role defaultRole = getUserRoleByName("USER");
         user.getRoles().add(defaultRole);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
@@ -38,29 +38,29 @@ public class UserService {
     }
 
     public User updateUserRoles(String username, Set<String> roleNames) {
-        User user = findByUserName(username);
-        Set<Role> newRoles = roleNames.stream().map(this::findRoleByName).collect(Collectors.toSet());
+        User user = getUserByUsername(username);
+        Set<Role> newRoles = roleNames.stream().map(this::getUserRoleByName).collect(Collectors.toSet());
 
         user.getRoles().addAll(newRoles);
         return userRepo.save(user);
 
     }
 
-    public User findByUserName(String username) {
+    public User getUserByUsername(String username) {
         return userRepo.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found : " + username));
     }
 
-    public User findByEmail(String email) {
+    public User getUserByEmail(String email) {
         return userRepo.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found : " + email));
     }
 
-    public List<User> findByFirstNameAndLastName(String firstName, String lastName) {
+    public List<User> getUserByFirstNameAndLastName(String firstName, String lastName) {
         return userRepo.findByFirstNameAndLastName(firstName, lastName)
                 .orElseThrow(() -> new RuntimeException("User not found : " + firstName + " " + lastName));
     }
 
-    public Role findRoleByName(String roleName) {
+    public Role getUserRoleByName(String roleName) {
         return roleRepo.findByName(roleName).orElseThrow(() -> new RuntimeException("Role not found : " + roleName));
     }
 
