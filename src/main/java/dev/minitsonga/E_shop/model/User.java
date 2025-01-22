@@ -18,38 +18,42 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
     private String firstName;
 
-    @Column(nullable = false)
     private String lastName;
 
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
     private String phone;
 
-    @Column(nullable = false)
     private Integer age;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Column(nullable = false)
     private String address;
 
-    @Column(nullable = false)
     private String city;
 
-    @Column(nullable = false)
     private String zip;
-
 
     @ManyToMany
     @JoinTable(name = "authorizations", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_name"))
     private Set<Role> roles = new HashSet<>();
+
+    public User() {
+
+    }
+
+    public User(UserSignUpDTO userSignUpDTO) {
+        this.username = userSignUpDTO.username();
+        this.email = userSignUpDTO.email();
+        this.password = userSignUpDTO.password();
+        Role defaultRole = new Role();
+        defaultRole.setRole("USER");
+        this.roles.add(defaultRole);
+    }
 
     public Long getId() {
         return id;
