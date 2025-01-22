@@ -1,12 +1,10 @@
 ﻿package dev.minitsonga.E_shop.service;
 
 import dev.minitsonga.E_shop.model.Product;
-import dev.minitsonga.E_shop.model.Tag;
 import dev.minitsonga.E_shop.repo.ProductRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class ProductService {
