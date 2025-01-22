@@ -13,17 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import dev.minitsonga.E_shop.service.UserService;
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfiguration {
-
-    private final UserService userService;
-
-    public SecurityConfig(UserService userService) {
-        this.userService = userService;
-    }
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -40,9 +32,9 @@ public class SecurityConfig extends WebSecurityConfiguration {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable()) // Désactiver CSRF (à activer pour les formulaires)
                 .authorizeHttpRequests(auth -> auth
-                                .requestMatchers("/api/users/**").hasRole("ADMIN") // Restreindre l'accès aux admins
-                                .requestMatchers("/api/products/**").authenticated() // Authentification requise
-                                .anyRequest().permitAll() // Autoriser toutes les autres requêtes
+                        .requestMatchers("/api/users/**").hasRole("ADMIN") // Restreindre l'accès aux admins
+                        .requestMatchers("/api/products/**").authenticated() // Authentification requise
+                        .anyRequest().permitAll() // Autoriser toutes les autres requêtes
                 )
                 .httpBasic(withDefaults()); // Utiliser HTTP Basic pour l'authentification (facile pour Postman)
         return http.build();
