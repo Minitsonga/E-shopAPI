@@ -102,8 +102,8 @@ public class UserService {
         return user;
     }
 
-    public User updateUserRoles(String username, Set<String> roleNames) {
-        User user = findUserByUsername(username);
+    public User updateUserRoles(Long id, Set<String> roleNames) {
+        User user = findUserById(id);
         Set<Role> newRoles = roleNames.stream().map(this::findRoleByName).collect(Collectors.toSet());
 
         user.getRoles().addAll(newRoles);
