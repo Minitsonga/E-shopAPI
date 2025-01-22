@@ -1,14 +1,11 @@
 ﻿package dev.minitsonga.E_shop.controller;
 
-import java.net.http.HttpResponse;
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.deser.impl.CreatorCandidate.Param;
 
 import dev.minitsonga.E_shop.model.Product;
 import dev.minitsonga.E_shop.service.ProductService;
@@ -47,7 +44,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}/delete")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-        productService.deleteProduct(id);
+        productService.deleteProductById(id);
         return ResponseEntity.noContent().build();
     }
 
