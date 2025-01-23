@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -40,6 +42,7 @@ public class User {
 
     @ManyToMany
     @JoinTable(name = "authorizations", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_name"))
+    @JsonManagedReference
     private Set<Role> roles = new HashSet<>();
 
     public User() {
