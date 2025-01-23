@@ -1,4 +1,4 @@
-﻿package dev.minitsonga.E_shop.domain.model;
+﻿package dev.minitsonga.E_shop.domain;
 
 import jakarta.persistence.*;
 

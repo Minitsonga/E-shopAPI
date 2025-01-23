@@ -3,16 +3,15 @@ package dev.minitsonga.E_shop.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dev.minitsonga.E_shop.domain.model.User;
-import dev.minitsonga.E_shop.domain.model.UserDTO;
-import dev.minitsonga.E_shop.domain.model.UserDTOMapper;
-import dev.minitsonga.E_shop.domain.model.UserPasswordDTO;
-import dev.minitsonga.E_shop.domain.model.UserSignUpDTO;
-import dev.minitsonga.E_shop.service.UserService;
+import dev.minitsonga.E_shop.domain.User;
+import dev.minitsonga.E_shop.application.dto.UserDTO;
+import dev.minitsonga.E_shop.application.mapper.UserDTOMapper;
+import dev.minitsonga.E_shop.application.dto.UserPasswordDTO;
+import dev.minitsonga.E_shop.application.dto.UserSignUpDTO;
+import dev.minitsonga.E_shop.application.service.UserService;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;

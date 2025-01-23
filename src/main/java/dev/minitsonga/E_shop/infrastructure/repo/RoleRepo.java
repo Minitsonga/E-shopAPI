@@ -1,9 +1,9 @@
-﻿package dev.minitsonga.E_shop.repo;
+﻿package dev.minitsonga.E_shop.infrastructure.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import dev.minitsonga.E_shop.domain.model.Role;
+import dev.minitsonga.E_shop.domain.Role;
 
 import java.util.Optional;
 

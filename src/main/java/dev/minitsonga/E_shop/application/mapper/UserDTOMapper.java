@@ -1,9 +1,13 @@
-package dev.minitsonga.E_shop.domain.model;
+package dev.minitsonga.E_shop.application.mapper;
 
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+
+import dev.minitsonga.E_shop.application.dto.AddressDTO;
+import dev.minitsonga.E_shop.application.dto.UserDTO;
+import dev.minitsonga.E_shop.domain.User;
 
 @Service
 public class UserDTOMapper implements Function<User, UserDTO> {

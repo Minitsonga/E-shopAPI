@@ -1,7 +1,7 @@
-﻿package dev.minitsonga.E_shop.service;
+﻿package dev.minitsonga.E_shop.application.service;
 
-import dev.minitsonga.E_shop.domain.model.Product;
-import dev.minitsonga.E_shop.repo.ProductRepo;
+import dev.minitsonga.E_shop.domain.Product;
+import dev.minitsonga.E_shop.infrastructure.repo.ProductRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

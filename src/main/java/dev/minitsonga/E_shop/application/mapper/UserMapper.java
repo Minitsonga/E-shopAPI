@@ -1,10 +1,13 @@
-package dev.minitsonga.E_shop.domain.model;
+package dev.minitsonga.E_shop.application.mapper;
 
 import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+
+import dev.minitsonga.E_shop.application.dto.UserSignUpDTO;
+import dev.minitsonga.E_shop.domain.Role;
+import dev.minitsonga.E_shop.domain.User;
 
 @Service
 public class UserMapper implements Function<Record, User> {

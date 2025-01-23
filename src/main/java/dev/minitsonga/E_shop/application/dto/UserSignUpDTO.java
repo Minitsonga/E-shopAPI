@@ -1,6 +1,9 @@
-package dev.minitsonga.E_shop.domain.model;
+package dev.minitsonga.E_shop.application.dto;
 
 import java.util.Set;
+
+import dev.minitsonga.E_shop.domain.Role;
+import dev.minitsonga.E_shop.domain.User;
 
 public record UserSignUpDTO(
         String username,

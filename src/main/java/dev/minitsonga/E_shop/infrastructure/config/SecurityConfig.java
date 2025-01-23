@@ -1,4 +1,4 @@
-﻿package dev.minitsonga.E_shop.config;
+﻿package dev.minitsonga.E_shop.infrastructure.config;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -29,7 +29,7 @@ public class SecurityConfig {
 
     // Configuration des règles de sécurité HTTP
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable()) // Désactiver CSRF (à activer pour les formulaires)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/users/add").permitAll()

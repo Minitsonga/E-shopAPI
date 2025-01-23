@@ -1,12 +1,12 @@
-package dev.minitsonga.E_shop.repo;
+package dev.minitsonga.E_shop.infrastructure.repo;
 
 import java.util.Set;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import dev.minitsonga.E_shop.domain.model.Role;
-import dev.minitsonga.E_shop.domain.model.User;
+import dev.minitsonga.E_shop.domain.Role;
+import dev.minitsonga.E_shop.domain.User;
 import jakarta.annotation.PostConstruct;
 
 @Component

@@ -1,4 +1,4 @@
-﻿package dev.minitsonga.E_shop.domain.model;
+﻿package dev.minitsonga.E_shop.domain;
 
 import jakarta.persistence.*;
 
@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 @Table(name = "users")
@@ -44,19 +45,6 @@ public class User {
     @JoinTable(name = "authorizations", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_name"))
     @JsonManagedReference
     private Set<Role> roles = new HashSet<>();
-
-    public User() {
-
-    }
-
-    public User(UserSignUpDTO userSignUpDTO) {
-        this.username = userSignUpDTO.username();
-        this.email = userSignUpDTO.email();
-        this.password = userSignUpDTO.password();
-        Role defaultRole = new Role();
-        defaultRole.setRole("USER");
-        this.roles.add(defaultRole);
-    }
 
     public Long getId() {
         return id;

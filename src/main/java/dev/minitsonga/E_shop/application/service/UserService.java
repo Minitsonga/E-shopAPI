@@ -1,13 +1,13 @@
-﻿package dev.minitsonga.E_shop.service;
+﻿package dev.minitsonga.E_shop.application.service;
 
-import dev.minitsonga.E_shop.domain.model.Role;
-import dev.minitsonga.E_shop.domain.model.User;
-import dev.minitsonga.E_shop.domain.model.UserDTO;
-import dev.minitsonga.E_shop.domain.model.UserPasswordDTO;
-import dev.minitsonga.E_shop.domain.model.UserProfileDTO;
-import dev.minitsonga.E_shop.domain.model.UserSignUpDTO;
-import dev.minitsonga.E_shop.repo.RoleRepo;
-import dev.minitsonga.E_shop.repo.UserRepo;
+import dev.minitsonga.E_shop.domain.Role;
+import dev.minitsonga.E_shop.domain.User;
+import dev.minitsonga.E_shop.application.dto.UserDTO;
+import dev.minitsonga.E_shop.application.dto.UserPasswordDTO;
+import dev.minitsonga.E_shop.application.dto.UserProfileDTO;
+import dev.minitsonga.E_shop.application.dto.UserSignUpDTO;
+import dev.minitsonga.E_shop.infrastructure.repo.RoleRepo;
+import dev.minitsonga.E_shop.infrastructure.repo.UserRepo;
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,13 @@ public class UserService {
     }
 
     public User createUser(UserSignUpDTO userSignUpDTO) {
-        User user = new User(userSignUpDTO);
+        User user = new User();
+        user.setUsername(userSignUpDTO.username());
+        user.setEmail(userSignUpDTO.email());
+        user.setPassword(userSignUpDTO.password());
+        Role defaultRole = new Role();
+        defaultRole.setRole("USER");
+        user.getRoles().add(defaultRole);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepo.save(user);
     }
