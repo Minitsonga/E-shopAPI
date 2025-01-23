@@ -34,7 +34,6 @@ public class UserService {
     public User createUser(UserSignUpDTO userSignUpDTO) {
         User user = new User(userSignUpDTO);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
         return userRepo.save(user);
     }
 
@@ -130,7 +129,7 @@ public class UserService {
     // }
 
     public Role findRoleByName(String roleName) {
-        return roleRepo.findByName(roleName).orElseThrow(() -> new RuntimeException("Role not found : " + roleName));
+        return roleRepo.findByRole(roleName).orElseThrow(() -> new RuntimeException("Role not found : " + roleName));
     }
 
     public List<User> findAllUsers() {
