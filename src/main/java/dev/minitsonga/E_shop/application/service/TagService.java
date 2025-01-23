@@ -1,6 +1,6 @@
 ﻿package dev.minitsonga.E_shop.service;
 
-import dev.minitsonga.E_shop.model.Tag;
+import dev.minitsonga.E_shop.domain.model.Tag;
 import dev.minitsonga.E_shop.repo.TagRepo;
 import org.springframework.stereotype.Service;
 

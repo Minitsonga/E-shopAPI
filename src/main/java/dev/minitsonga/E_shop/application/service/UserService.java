@@ -1,11 +1,11 @@
 ﻿package dev.minitsonga.E_shop.service;
 
-import dev.minitsonga.E_shop.model.Role;
-import dev.minitsonga.E_shop.model.User;
-import dev.minitsonga.E_shop.model.UserDTO;
-import dev.minitsonga.E_shop.model.UserPasswordDTO;
-import dev.minitsonga.E_shop.model.UserProfileDTO;
-import dev.minitsonga.E_shop.model.UserSignUpDTO;
+import dev.minitsonga.E_shop.domain.model.Role;
+import dev.minitsonga.E_shop.domain.model.User;
+import dev.minitsonga.E_shop.domain.model.UserDTO;
+import dev.minitsonga.E_shop.domain.model.UserPasswordDTO;
+import dev.minitsonga.E_shop.domain.model.UserProfileDTO;
+import dev.minitsonga.E_shop.domain.model.UserSignUpDTO;
 import dev.minitsonga.E_shop.repo.RoleRepo;
 import dev.minitsonga.E_shop.repo.UserRepo;
 import jakarta.transaction.Transactional;

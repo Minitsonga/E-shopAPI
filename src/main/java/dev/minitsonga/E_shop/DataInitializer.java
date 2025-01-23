@@ -5,8 +5,8 @@ import java.util.Set;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import dev.minitsonga.E_shop.model.Role;
-import dev.minitsonga.E_shop.model.User;
+import dev.minitsonga.E_shop.domain.model.Role;
+import dev.minitsonga.E_shop.domain.model.User;
 import jakarta.annotation.PostConstruct;
 
 @Component

@@ -1,4 +1,4 @@
-package dev.minitsonga.E_shop.model;
+package dev.minitsonga.E_shop.domain.model;
 
 import java.util.function.Function;
 import java.util.stream.Collectors;

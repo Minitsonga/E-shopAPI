@@ -6,8 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
-import dev.minitsonga.E_shop.model.Product;
+import dev.minitsonga.E_shop.domain.model.Product;
 import dev.minitsonga.E_shop.service.ProductService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;

@@ -1,4 +1,4 @@
-package dev.minitsonga.E_shop.model;
+package dev.minitsonga.E_shop.domain.model;
 
 public record UserPasswordDTO(
         String username,

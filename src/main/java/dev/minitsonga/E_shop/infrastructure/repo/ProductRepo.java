@@ -1,11 +1,12 @@
 ﻿package dev.minitsonga.E_shop.repo;
 
-import dev.minitsonga.E_shop.model.Product;
-import dev.minitsonga.E_shop.model.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import dev.minitsonga.E_shop.domain.model.Product;
+import dev.minitsonga.E_shop.domain.model.Tag;
 
 import java.util.List;
 import java.util.Set;
