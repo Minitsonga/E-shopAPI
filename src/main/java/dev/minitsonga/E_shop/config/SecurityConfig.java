@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfiguration {
+public class SecurityConfig {
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -29,9 +29,10 @@ public class SecurityConfig extends WebSecurityConfiguration {
 
     // Configuration des règles de sécurité HTTP
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable()) // Désactiver CSRF (à activer pour les formulaires)
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/users/add").permitAll()
                         .requestMatchers("/api/users/**").hasRole("ADMIN") // Restreindre l'accès aux admins
                         .requestMatchers("/api/products/**").authenticated() // Authentification requise
                         .anyRequest().permitAll() // Autoriser toutes les autres requêtes
