@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,10 +33,13 @@ public class UserController {
 
     private final UserService userService;
     private final UserDTOMapper userDTOMapper;
+    private final AuthenticationManager authenticationManager;
 
-    public UserController(UserService userService, UserDTOMapper userDTOMapper) {
+    public UserController(UserService userService, UserDTOMapper userDTOMapper,
+            AuthenticationManager authenticationManager) {
         this.userService = userService;
         this.userDTOMapper = userDTOMapper;
+        this.authenticationManager = authenticationManager;
     }
 
     @GetMapping
@@ -51,6 +56,12 @@ public class UserController {
         return ResponseEntity.ok(userDTOMapper.apply(user));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
+        User user = userService.findUserById(id);
+        return ResponseEntity.ok(userDTOMapper.apply(user));
+    }
+
     @PostMapping(path = "/add")
     public ResponseEntity<UserDTO> registerUser(@RequestBody UserSignUpDTO userSignUpDTO) {
         User user = userService.createUser(userSignUpDTO);
@@ -64,7 +75,8 @@ public class UserController {
     }
 
     @PutMapping("/{id}/password")
-    public ResponseEntity<UserDTO> updatePasswordUser(@PathVariable Long id, @RequestBody UserPasswordDTO userPasswordDTO) {
+    public ResponseEntity<UserDTO> updatePasswordUser(@PathVariable Long id,
+            @RequestBody UserPasswordDTO userPasswordDTO) {
         User updatedUser = userService.updateUserDetails(id, userPasswordDTO);
         return ResponseEntity.ok(userDTOMapper.apply(updatedUser));
     }
@@ -81,6 +93,18 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUserById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody UserSignUpDTO loginDTO) {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginDTO.username(), loginDTO.password()));
+            return ResponseEntity.ok("Login successful");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        }
     }
 
 }
