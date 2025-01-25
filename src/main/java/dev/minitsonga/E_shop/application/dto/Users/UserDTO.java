@@ -1,4 +1,4 @@
-package dev.minitsonga.E_shop.application.dto;
+package dev.minitsonga.E_shop.application.dto.Users;
 
 import java.util.List;
 
