@@ -1,16 +1,15 @@
 ﻿package dev.minitsonga.E_shop.application.service;
 
+import dev.minitsonga.E_shop.application.dto.Users.UserDTO;
+import dev.minitsonga.E_shop.application.dto.Users.UserPasswordDTO;
+import dev.minitsonga.E_shop.application.dto.Users.UserProfileDTO;
+import dev.minitsonga.E_shop.application.dto.Users.UserSignUpDTO;
 import dev.minitsonga.E_shop.domain.Role;
 import dev.minitsonga.E_shop.domain.User;
-import dev.minitsonga.E_shop.application.dto.UserDTO;
-import dev.minitsonga.E_shop.application.dto.UserPasswordDTO;
-import dev.minitsonga.E_shop.application.dto.UserProfileDTO;
-import dev.minitsonga.E_shop.application.dto.UserSignUpDTO;
 import dev.minitsonga.E_shop.infrastructure.repo.RoleRepo;
 import dev.minitsonga.E_shop.infrastructure.repo.UserRepo;
 import jakarta.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +41,8 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepo.save(user);
     }
+
+
 
     public User updateUserDetails(Long id, Record dto) {
         User user = findUserById(id);

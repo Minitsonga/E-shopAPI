@@ -5,28 +5,32 @@ import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "products")
-public class Product
-{
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(nullable = false)
     private String name;
     private String description;
     private String imageUrl;
     private Double price;
     private Integer stockQuantity;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "product_tags", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "tag_name"))
+    @JsonManagedReference
     private Set<Tag> tags = new HashSet<>();
 
-    public Product() {}
+    public Product() {
+    }
 
-    public Product(String name, String description, String imageUrl, Double price, Integer stockQuantity, Set<Tag> tags)
-    {
+    public Product(String name, String description, String imageUrl, Double price, Integer stockQuantity,
+            Set<Tag> tags) {
         this.name = name;
         this.description = description;
         this.imageUrl = imageUrl;
@@ -36,76 +40,60 @@ public class Product
     }
 
     // Getters et Setters
-    public Long getId()
-    {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Long id)
-    {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getDescription()
-    {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description)
-    {
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    public String getImageUrl()
-    {
+    public String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(String imageUrl)
-    {
+    public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 
-
-    public Double getPrice()
-    {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Double price)
-    {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
-    public Integer getStockQuantity()
-    {
+    public Integer getStockQuantity() {
         return stockQuantity;
     }
 
-    public void getStockQuantity(Integer stock)
-    {
+    public void getStockQuantity(Integer stock) {
         this.stockQuantity = stock;
     }
 
-    public Set<Tag> getTags()
-    {
+    public Set<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(Set<Tag> tags)
-    {
+    public void setTags(Set<Tag> tags) {
         this.tags = tags;
     }
 
 }
-

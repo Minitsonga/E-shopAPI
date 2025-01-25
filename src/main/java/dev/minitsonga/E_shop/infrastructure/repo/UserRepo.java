@@ -9,13 +9,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserRepo extends JpaRepository<User, Long>
-{
+public interface UserRepo extends JpaRepository<User, Long> {
+
     Optional<User> findUserByUsername(String username);
 
     Optional<User> findUserByEmail(String email);
 
     List<User> getUserByFirstNameAndLastName(String firstName, String lastName);
-
 
 }

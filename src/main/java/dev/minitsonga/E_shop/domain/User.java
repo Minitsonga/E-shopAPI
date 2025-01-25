@@ -41,7 +41,7 @@ public class User {
 
     private String zip;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "authorizations", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_name"))
     @JsonManagedReference
     private Set<Role> roles = new HashSet<>();

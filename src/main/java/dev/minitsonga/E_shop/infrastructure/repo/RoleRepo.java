@@ -8,8 +8,7 @@ import dev.minitsonga.E_shop.domain.Role;
 import java.util.Optional;
 
 @Repository
-public interface RoleRepo extends JpaRepository<Role, String>
-{
+public interface RoleRepo extends JpaRepository<Role, String> {
     Optional<Role> findByRole(String role);
 
 }
