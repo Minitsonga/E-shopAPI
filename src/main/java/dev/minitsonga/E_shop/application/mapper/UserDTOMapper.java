@@ -5,8 +5,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import dev.minitsonga.E_shop.application.dto.AddressDTO;
-import dev.minitsonga.E_shop.application.dto.UserDTO;
+import dev.minitsonga.E_shop.application.dto.Users.AddressDTO;
+import dev.minitsonga.E_shop.application.dto.Users.UserDTO;
 import dev.minitsonga.E_shop.domain.User;
 
 @Service
