@@ -85,22 +85,5 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping(path = "/signup")
-    public ResponseEntity<UserDTO> registerUser(@RequestBody UserSignUpDTO userSignUpDTO) {
-        User user = userService.createUser(userSignUpDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userDTOMapper.apply(user));
-    }
-
-    // @PostMapping("/login")
-    // public ResponseEntity<?> loginUser(@RequestBody UserSignUpDTO loginDTO) {
-    //     try {
-    //         authenticationManager.authenticate(
-    //                 new UsernamePasswordAuthenticationToken(
-    //                         loginDTO.username(), loginDTO.password()));
-    //         return ResponseEntity.ok("Login successful");
-    //     } catch (Exception e) {
-    //         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
-    //     }
-    // }
 
 }
