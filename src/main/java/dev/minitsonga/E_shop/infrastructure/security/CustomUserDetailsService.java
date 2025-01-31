@@ -5,7 +5,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import dev.minitsonga.E_shop.domain.Role;
 import dev.minitsonga.E_shop.domain.User;
 import dev.minitsonga.E_shop.infrastructure.repo.UserRepo;
 

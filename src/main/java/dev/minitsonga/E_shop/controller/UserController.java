@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.minitsonga.E_shop.domain.User;
 import dev.minitsonga.E_shop.application.dto.Users.UserDTO;
 import dev.minitsonga.E_shop.application.dto.Users.UserPasswordDTO;
-import dev.minitsonga.E_shop.application.dto.Users.UserSignUpDTO;
 import dev.minitsonga.E_shop.application.mapper.UserDTOMapper;
 import dev.minitsonga.E_shop.application.service.UserService;
 
@@ -14,10 +13,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
