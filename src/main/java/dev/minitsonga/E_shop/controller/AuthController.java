@@ -64,8 +64,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
 
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body("User not found : " + loginDTO.username() + " | " + loginDTO.email());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("Error", "User not found"));
 
     }
 
