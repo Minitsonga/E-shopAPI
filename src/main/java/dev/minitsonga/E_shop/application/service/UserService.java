@@ -10,6 +10,9 @@ import dev.minitsonga.E_shop.infrastructure.repo.RoleRepo;
 import dev.minitsonga.E_shop.infrastructure.repo.UserRepo;
 import jakarta.transaction.Transactional;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,14 +26,20 @@ public class UserService {
     private final UserRepo userRepo;
     private final RoleRepo roleRepo;
     private final PasswordEncoder passwordEncoder;
+    private final JWTService jwtService;
+    private final AuthenticationManager authManager;
 
-    public UserService(UserRepo userRepo, PasswordEncoder passwordEncoder, RoleRepo roleRepo) {
+    public UserService(UserRepo userRepo, PasswordEncoder passwordEncoder, RoleRepo roleRepo,
+            JWTService jwtService, AuthenticationManager authManager) {
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
         this.roleRepo = roleRepo;
+        this.jwtService = jwtService;
+        this.authManager = authManager;
     }
 
     public User createUser(UserSignUpDTO userSignUpDTO) {
+
         User user = new User();
         user.setUsername(userSignUpDTO.username());
         user.setEmail(userSignUpDTO.email());
@@ -42,7 +51,27 @@ public class UserService {
         return userRepo.save(user);
     }
 
+    public String verifyUser(UserSignUpDTO usersSignUpDTO) {
 
+        Authentication authentication = authManager.authenticate(
+                new UsernamePasswordAuthenticationToken(usersSignUpDTO.username(), usersSignUpDTO.password()));
+
+        if (authentication.isAuthenticated()) {
+            User user = findUserByUsername(usersSignUpDTO.username());
+            return jwtService.generateToken(user);
+        }
+        return null;
+    }
+
+    public User userExists(String username, String email) {
+
+        if (userRepo.findUserByEmail(email).isPresent())
+            return findUserByEmail(email);
+        if (userRepo.findUserByUsername(username).isPresent())
+            return findUserByUsername(username);
+
+        return null;
+    }
 
     public User updateUserDetails(Long id, Record dto) {
         User user = findUserById(id);
