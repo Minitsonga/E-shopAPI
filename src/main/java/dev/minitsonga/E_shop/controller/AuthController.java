@@ -9,7 +9,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,6 +16,7 @@ import dev.minitsonga.E_shop.application.dto.Users.UserSignUpDTO;
 import dev.minitsonga.E_shop.application.mapper.UserDTOMapper;
 import dev.minitsonga.E_shop.application.service.JWTService;
 import dev.minitsonga.E_shop.application.service.UserService;
+import dev.minitsonga.E_shop.domain.RefreshToken;
 import dev.minitsonga.E_shop.domain.User;
 
 @RestController
@@ -59,13 +59,36 @@ public class AuthController {
                     new UsernamePasswordAuthenticationToken(user.getUsername(), loginDTO.password()));
 
             if (authentication.isAuthenticated()) {
-                String token = jwtService.generateToken(userService.findUserByUsername(user.getUsername()));
-                return ResponseEntity.status(HttpStatus.ACCEPTED).body(Map.of("token", token));
+                String accessToken = jwtService.generateAccessToken(userService.findUserByUsername(user.getUsername()));
+                RefreshToken refreshToken = jwtService
+                        .generateRefreshToken(userService.findUserByUsername(user.getUsername()));
+                return ResponseEntity.status(HttpStatus.ACCEPTED)
+                        .body(Map.of("access_Token", accessToken, "refresh_Token", refreshToken.getToken()));
             }
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("Error", "User not found"));
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refreshToken(@RequestBody Map<String, String> request) {
+        RefreshToken refreshToken = jwtService.findRefreshToken(request.get("refresh_Token"));
+
+        if (refreshToken != null) {
+            User user = refreshToken.getUser();
+            String newAccessToken = jwtService.generateAccessToken(user);
+            return ResponseEntity.ok(Map.of("access_Token", newAccessToken));
+        }
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid refresh token");
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@RequestBody Map<String, String> request) {
+        User user = userService.userExists(request.get("username"), request.get("username"));
+        jwtService.revokeRefreshToken(user);
+        return ResponseEntity.ok(Map.of("message", "Logged out successfully"));
     }
 
 }

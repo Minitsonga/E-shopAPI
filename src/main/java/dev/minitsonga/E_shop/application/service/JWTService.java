@@ -1,8 +1,10 @@
 package dev.minitsonga.E_shop.application.service;
 
+import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 
 import javax.crypto.KeyGenerator;
@@ -11,17 +13,21 @@ import javax.crypto.SecretKey;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import dev.minitsonga.E_shop.domain.RefreshToken;
 import dev.minitsonga.E_shop.domain.User;
+import dev.minitsonga.E_shop.infrastructure.repo.RefreshTokenRepo;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-
 
 @Service
 public class JWTService {
 
     private final SecretKey secretKey;
 
-    public JWTService() {
+    private final RefreshTokenRepo refreshTokenRepo;
+
+    public JWTService(RefreshTokenRepo refreshTokenRepo) {
+        this.refreshTokenRepo = refreshTokenRepo;
         this.secretKey = generateSecretKey();
     }
 
@@ -36,17 +42,31 @@ public class JWTService {
         }
     }
 
-    public String generateToken(User user) {
+    public String generateAccessToken(User user) {
 
-        Map<String, Object> claims = new HashMap<>();
+        HashMap<String, Object> claims = new HashMap<>();
         claims.put("id", user.getId());
         claims.put("roles", user.getRoles());
+        return buildToken(claims, user, 1000L * 60 * 15);
+    }
+
+    public RefreshToken generateRefreshToken(User user) {
+
+        HashMap<String, Object> claims = new HashMap<>();
+        claims.put("id", user.getId());
+        claims.put("roles", user.getRoles());
+        String token = buildToken(claims, user, 1000L * 60 * 60 * 24 * 7);
+        RefreshToken refreshToken = new RefreshToken(token, Instant.now().plusMillis(1000L * 60 * 60 * 24 * 7), user);
+        return refreshTokenRepo.save(refreshToken);
+    }
+
+    private String buildToken(Map<String, Object> extraClaims, User user, Long expiration) {
         return Jwts.builder()
                 .claims()
-                .add(claims)
+                .add(extraClaims)
                 .subject(user.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 30))
+                .expiration(new Date(System.currentTimeMillis() + expiration))
                 .and()
                 .signWith(secretKey)
                 .compact();
@@ -63,8 +83,7 @@ public class JWTService {
     }
 
     private boolean isTokenExpired(String token) {
-        final Date expiration = extractClaim(token, Claims::getExpiration);
-        return expiration.before(new Date());
+        return extractClaim(token, Claims::getExpiration).before(new Date());
     }
 
     public String extractUsername(String token) {
@@ -78,6 +97,14 @@ public class JWTService {
                 .parseSignedClaims(token)
                 .getPayload();
 
+    }
+
+    public void revokeRefreshToken(User user) {
+        refreshTokenRepo.deleteByUser(user);
+    }
+
+    public RefreshToken findRefreshToken(String token) {
+        return refreshTokenRepo.findByToken(token).isPresent() ? refreshTokenRepo.findByToken(token).get() : null;
     }
 
 }

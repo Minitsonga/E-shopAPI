@@ -58,7 +58,7 @@ public class UserService {
 
         if (authentication.isAuthenticated()) {
             User user = findUserByUsername(usersSignUpDTO.username());
-            return jwtService.generateToken(user);
+            return jwtService.generateAccessToken(user);
         }
         return null;
     }
