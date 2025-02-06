@@ -54,7 +54,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/users/**").hasAuthority("ROLE_ADMIN") // Restreindre l'accès aux admins
-                        .requestMatchers("/api/products/**").authenticated() // Authentification requise
+                        .requestMatchers("/api/products/**").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/api/products/").authenticated() // Authentification requise
                         .anyRequest().permitAll() // Autoriser toutes les autres requêtes
                 )
                 .httpBasic(withDefaults()) // Utiliser HTTP Basic pour l'authentification (facile pour Postman)
