@@ -1,7 +1,10 @@
 ﻿package dev.minitsonga.E_shop.application.service;
 
 import dev.minitsonga.E_shop.domain.Tag;
+import dev.minitsonga.E_shop.infrastructure.exceptions.ApiException;
 import dev.minitsonga.E_shop.infrastructure.repo.TagRepo;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,15 +23,14 @@ public class TagService {
 
     public Tag createTag(String name) {
         if (tagRepo.existsById(name))
-            throw new IllegalArgumentException("Tag already exists ! : " + name);
+            throw new ApiException(HttpStatus.CONFLICT, "Tag", name);
         return tagRepo.save(new Tag(name));
     }
 
     public void deleteTag(String name) {
         if (!tagRepo.existsById(name))
-            throw new RuntimeException("Tag doesn't exists ! : " + name);
+            throw new ApiException(HttpStatus.NOT_FOUND, "Tag", name);
         tagRepo.deleteById(name);
     }
 
-  
 }

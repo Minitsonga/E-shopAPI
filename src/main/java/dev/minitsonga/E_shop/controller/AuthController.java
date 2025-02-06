@@ -20,6 +20,7 @@ import dev.minitsonga.E_shop.application.service.JWTService;
 import dev.minitsonga.E_shop.application.service.UserService;
 import dev.minitsonga.E_shop.domain.RefreshToken;
 import dev.minitsonga.E_shop.domain.User;
+import dev.minitsonga.E_shop.infrastructure.exceptions.ApiException;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -66,10 +67,10 @@ public class AuthController {
                 return ResponseEntity.status(HttpStatus.ACCEPTED)
                         .body(new AuthenticationResponseDTO(accessToken, refreshToken.getToken()));
             }
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            throw new ApiException(HttpStatus.UNAUTHORIZED, "Authentification", "Identifiants incorrects");
         }
 
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("Error", "User not found"));
+        throw new ApiException(HttpStatus.UNAUTHORIZED, "Authentification", "Identifiants incorrects");
     }
 
     @PostMapping("/refresh")

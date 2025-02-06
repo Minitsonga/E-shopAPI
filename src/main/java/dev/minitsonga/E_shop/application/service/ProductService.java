@@ -4,9 +4,11 @@ import dev.minitsonga.E_shop.application.dto.Products.NewProductDTO;
 import dev.minitsonga.E_shop.application.dto.Products.ProductDTO;
 import dev.minitsonga.E_shop.domain.Product;
 import dev.minitsonga.E_shop.domain.Tag;
+import dev.minitsonga.E_shop.infrastructure.exceptions.ApiException;
 import dev.minitsonga.E_shop.infrastructure.repo.ProductRepo;
 import dev.minitsonga.E_shop.infrastructure.repo.TagRepo;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,7 +33,7 @@ public class ProductService {
     }
 
     public Product updateProduct(Long id, ProductDTO productDTO) {
-        Product product = productRepo.findById(id).orElseThrow();
+        Product product = productRepo.findById(id).orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Produit", id));
         product.setName(productDTO.name());
         product.setDescription(productDTO.description());
         product.setImageUrl(productDTO.imageUrl());
@@ -44,7 +46,7 @@ public class ProductService {
 
     public void deleteProductById(Long id) {
         if (!productRepo.existsById(id)) {
-            throw new RuntimeException("Product not found with ID: " + id);
+            throw new ApiException(HttpStatus.NOT_FOUND, "Produit", id);
         }
         productRepo.deleteById(id);
     }
@@ -54,7 +56,7 @@ public class ProductService {
     }
 
     public Tag findTagByName(String name) {
-        return tagRepo.findByName(name).orElseThrow(() -> new RuntimeException("Tag not found : " + name));
+        return tagRepo.findByName(name).orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Tag", name));
     }
 
 }

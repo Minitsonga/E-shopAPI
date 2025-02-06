@@ -6,10 +6,12 @@ import dev.minitsonga.E_shop.application.dto.Users.UserPasswordDTO;
 import dev.minitsonga.E_shop.application.dto.Users.UserProfileDTO;
 import dev.minitsonga.E_shop.domain.Role;
 import dev.minitsonga.E_shop.domain.User;
+import dev.minitsonga.E_shop.infrastructure.exceptions.ApiException;
 import dev.minitsonga.E_shop.infrastructure.repo.RoleRepo;
 import dev.minitsonga.E_shop.infrastructure.repo.UserRepo;
 import jakarta.transaction.Transactional;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -149,13 +151,13 @@ public class UserService {
     public User findUserByUsername(String username) {
 
         return userRepo.findUserByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found: " + username));
+                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Utilisateur", username));
 
     }
 
     public User findUserByEmail(String email) {
         return userRepo.findUserByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found : " + email));
+                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Email", email));
     }
 
     // public List<User> getUserByFirstNameAndLastName(String firstName, String
@@ -174,13 +176,13 @@ public class UserService {
 
     public User findUserById(Long id) {
         return userRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("User with [%s] not found !".formatted(id)));
+                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Utilisateur", id));
     }
 
     @Transactional
     public void deleteUserById(Long id) {
         if (!userRepo.existsById(id)) {
-            throw new RuntimeException("User not found with ID: " + id);
+            throw new ApiException(HttpStatus.NOT_FOUND, "Utilisateur", id);
         }
         userRepo.deleteById(id);
     }
