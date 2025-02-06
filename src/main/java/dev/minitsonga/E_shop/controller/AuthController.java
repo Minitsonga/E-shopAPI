@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dev.minitsonga.E_shop.application.dto.Users.UserSignUpDTO;
+import dev.minitsonga.E_shop.application.dto.Authentications.AuthenticationRequestDTO;
+import dev.minitsonga.E_shop.application.dto.Authentications.AuthenticationResponseDTO;
+import dev.minitsonga.E_shop.application.dto.Authentications.UserSignUpDTO;
 import dev.minitsonga.E_shop.application.mapper.UserDTOMapper;
 import dev.minitsonga.E_shop.application.service.JWTService;
 import dev.minitsonga.E_shop.application.service.UserService;
@@ -49,21 +51,20 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody UserSignUpDTO loginDTO) {
+    public ResponseEntity<?> loginUser(@RequestBody AuthenticationRequestDTO loginRequest) {
 
-        User user = userService.userExists(loginDTO.username(), loginDTO.email());
+        User user = userService.userExists(loginRequest.usernameOrEmail(), loginRequest.usernameOrEmail());
 
         if (user != null) {
 
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(user.getUsername(), loginDTO.password()));
+                    new UsernamePasswordAuthenticationToken(user.getUsername(), loginRequest.password()));
 
             if (authentication.isAuthenticated()) {
-                String accessToken = jwtService.generateAccessToken(userService.findUserByUsername(user.getUsername()));
-                RefreshToken refreshToken = jwtService
-                        .generateRefreshToken(userService.findUserByUsername(user.getUsername()));
+                String accessToken = jwtService.generateAccessToken(user);
+                RefreshToken refreshToken = jwtService.generateRefreshToken(user);
                 return ResponseEntity.status(HttpStatus.ACCEPTED)
-                        .body(Map.of("access_Token", accessToken, "refresh_Token", refreshToken.getToken()));
+                        .body(new AuthenticationResponseDTO(accessToken, refreshToken.getToken()));
             }
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
@@ -72,16 +73,19 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<?> refreshToken(@RequestBody Map<String, String> request) {
-        RefreshToken refreshToken = jwtService.findRefreshToken(request.get("refresh_Token"));
+    public ResponseEntity<AuthenticationResponseDTO> refreshAccessToken(
+            @RequestBody AuthenticationResponseDTO request) {
+        String refreshTokenString = request.refreshToken();
+        RefreshToken refreshTokenOpt = jwtService.findRefreshToken(refreshTokenString);
 
-        if (refreshToken != null) {
-            User user = refreshToken.getUser();
+        if (refreshTokenOpt != null) {
+            User user = refreshTokenOpt.getUser();
             String newAccessToken = jwtService.generateAccessToken(user);
-            return ResponseEntity.ok(Map.of("access_Token", newAccessToken));
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(new AuthenticationResponseDTO(newAccessToken, refreshTokenOpt.getToken()));
         }
 
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid refresh token");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
 
     @PostMapping("/logout")
