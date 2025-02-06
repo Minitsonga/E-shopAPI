@@ -1,9 +1,9 @@
 ﻿package dev.minitsonga.E_shop.application.service;
 
+import dev.minitsonga.E_shop.application.dto.Authentications.UserSignUpDTO;
 import dev.minitsonga.E_shop.application.dto.Users.UserDTO;
 import dev.minitsonga.E_shop.application.dto.Users.UserPasswordDTO;
 import dev.minitsonga.E_shop.application.dto.Users.UserProfileDTO;
-import dev.minitsonga.E_shop.application.dto.Users.UserSignUpDTO;
 import dev.minitsonga.E_shop.domain.Role;
 import dev.minitsonga.E_shop.domain.User;
 import dev.minitsonga.E_shop.infrastructure.repo.RoleRepo;

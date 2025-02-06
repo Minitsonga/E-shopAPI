@@ -1,4 +1,4 @@
-package dev.minitsonga.E_shop.application.dto.Users;
+package dev.minitsonga.E_shop.application.dto.Authentications;
 
 import java.util.Set;
 

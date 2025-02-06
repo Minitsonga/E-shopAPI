@@ -5,7 +5,7 @@ import java.util.function.Function;
 
 import org.springframework.stereotype.Service;
 
-import dev.minitsonga.E_shop.application.dto.Users.UserSignUpDTO;
+import dev.minitsonga.E_shop.application.dto.Authentications.UserSignUpDTO;
 import dev.minitsonga.E_shop.domain.Role;
 import dev.minitsonga.E_shop.domain.User;
 
