@@ -15,17 +15,26 @@ public class DataInitializer {
     private final RoleRepo roleRepo;
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
+    private final RefreshTokenRepo refreshTokenRepo;
 
-    public DataInitializer(RoleRepo roleRepo, UserRepo userRepo, PasswordEncoder passwordEncoder) {
+    public DataInitializer(RoleRepo roleRepo, UserRepo userRepo, PasswordEncoder passwordEncoder,
+            RefreshTokenRepo refreshTokenRepo) {
         this.roleRepo = roleRepo;
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
+        this.refreshTokenRepo = refreshTokenRepo;
     }
 
     @PostConstruct
     public void initializeData() {
         initializeRoles();
         initializeAdminUser();
+        //revokeAllRefreshTokens();
+    }
+
+    private void revokeAllRefreshTokens() {
+        refreshTokenRepo.deleteAll();
+        System.out.println("Tous les RefreshTokens ont été supprimés au redémarrage !");
     }
 
     public void initializeRoles() {
